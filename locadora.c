@@ -1,10 +1,10 @@
-#include <locadora.h>
+#include "locadora.h"
 #include <math.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
 #define MAX 100
-#define N 50
 
 struct lista {
   int qtd;
@@ -12,7 +12,7 @@ struct lista {
 };
 
 Lista* inicializaLista(){
-  Lista* li = (Lista*)malloc(sizeof(struct lista));
+  Lista* li = (Lista*)malloc(sizeof(Lista));
   if(li != NULL)
       li->qtd = 0;
   return li;
@@ -27,26 +27,27 @@ int insereFilme(Lista* li, Filme f){
     return 0;
   if (li->qtd == MAX) //lista cheia
     return 0;
-  li->dados[li->qnt] = f;
+  li->dados[li->qtd] = f;
+  li->dados[li->qtd].locacao = 0;
   li->qtd++;
   return 1;
 }
 
 void consultaTitulo(Lista* li, char* title){
   if (li == NULL)
-    return 0;
-  for (int i=0; i < li->qtd; i++){
-    if (strcmp(li->dados[i].titulo, title) == 0){
+    return;
+  for (int i=0; i < li->qtd; i++)
+    if (!strcmp(li->dados[i].titulo, title)){
       printf("%s, %d\n", li->dados[i].titulo, li->dados[i].ano);
-      return i;
+      return;
     }
-  }
-  return 0;  //nao foi encontrado o elemento
+  printf("Não foi encontrado filmes com este título em nosso banco de dados");
+  return;
 }
 
 void consultaAno(Lista *li, int ano){
   if (li == NULL)
-    return 0;
+    return;
     int i=0, flag=0;
   while (i<li->qtd) {
     if (li->dados[i].ano == ano){
@@ -54,26 +55,44 @@ void consultaAno(Lista *li, int ano){
       flag = 1;
     }
     i++;
-    if (flag = 0)
-      printf("Não há filmes de %d em nosso banco de dados.\n", ano);
   }
+  if (flag == 0)
+    printf("Não há filmes de %d em nosso banco de dados.\n", ano);
 }
 
 void aluga(Filme *f){
   if (f != NULL)
     f->locacao++;
+  }
+
+
+void alugaPorTitulo(char* titulo, Lista* li){
+  for (int i=0; i<li->qtd; i++)
+    if (!strcmp(li->dados[i].titulo, titulo))
+      aluga(&(li->dados[i]));
 }
 
-void imprimeFilme(){
-
+void imprimeFilmes(Lista* li){
+  Filme aux;
+  for(int i=0; i<li->qtd; i++){
+    for (int j=i; j<li->qtd; j++){
+      if (li->dados[i].locacao <= li->dados[j].locacao) {
+        aux = li->dados[i];
+        li->dados[i] = li->dados[j];
+        li->dados[j] = aux;
+      }
+      printf("%s, %d, locações: %d\n", li->dados[i].titulo, li->dados[i].ano, li->dados[i].locacao);
+    }
+  }
 }
 
 int convertChar(char c){
   return (c - 48);
 }
 
-int convertString(char* ano){
-  for (int j, expoente=i; j <= i; j++){
+int convertString(char* ano, int i){
+  int year=0;
+  for (int j=0, expoente=i; j <= i; j++){
     year += convertChar(ano[j]) * pow(10, expoente);
     expoente --;
   }
