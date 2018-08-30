@@ -1,6 +1,8 @@
 #ifndef LOCADORA
 #define LOCADORA
 
+#define N 50
+
 struct filme {
   char titulo[N];
   int ano;
@@ -11,12 +13,14 @@ typedef struct lista Lista;
 typedef struct filme Filme;
 
 Lista* inicializaLista();
-int insereFilme(Lista* li, Filme f);
 void liberaLista(Lista* li);
+int insereFilme(Lista* li, Filme f);
 void consultaTitulo(Lista *li, char* title);
 void consultaAno(Lista *li, int ano);
 void aluga(Filme *f);
-void imprimeFilme();
+void alugaPorTitulo(char* titulo, Lista* li);
+void imprimeFilmes(Lista* li);
 int converteChar(char c);
+int convertString(char* ano, int i);
 
 #endif
