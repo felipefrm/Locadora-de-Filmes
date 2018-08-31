@@ -15,23 +15,27 @@ int main(void){
 
   while (1) {
 
-    for (i=0, c = fgetc(arq); c != ','; i++)
+    for (i=0, c = fgetc(arq); c != ','; i++){
+      if (feof(arq) != 0)
+          break;
       f.titulo[i] = fgetc(arq);
-
-    for (i=0, c = fgetc(arq); c != '\n'; i++){
-      ano[i] = fgetc(arq);
     }
+    f.titulo[i] = '\0';
+
+    if (feof(arq) != 0)
+      break;
+
+    for (i=0, c = fgetc(arq); c != '\n'; i++)
+      ano[i] = fgetc(arq);
+    ano[i] = '\0';
 
     f.ano = convertString(ano, i);
 
     if (insereFilme(li, f) == 0)
       fprintf(stderr, "Lista de filmes cheia!\n");
-
-    if (feof(arq) != 0)
-      break;
     }
-    fclose(arq);
 
+    fclose(arq);
 
     while (1) {
 
