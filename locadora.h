@@ -21,6 +21,6 @@ void aluga(Filme *f);
 void alugaPorTitulo(char* titulo, Lista* li);
 void imprimeFilmes(Lista* li);
 int converteChar(char c);
-int convertString(char* ano, int i);
+int convertString(char* ano);
 
 #endif
