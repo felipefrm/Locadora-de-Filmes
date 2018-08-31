@@ -12,7 +12,8 @@ struct lista {
 };
 
 Lista* inicializaLista(){
-  Lista* li = (Lista*)malloc(sizeof(Lista));
+  Lista *li;
+  li = (Lista*)malloc(sizeof(Lista));
   if(li != NULL)
       li->qtd = 0;
   return li;
@@ -91,7 +92,7 @@ int convertChar(char c){
 }
 
 int convertString(char* ano, int i){
-  int year=0;
+  int year = 0;
   for (int j=0, expoente=i; j <= i; j++){
     year += convertChar(ano[j]) * pow(10, expoente);
     expoente --;
