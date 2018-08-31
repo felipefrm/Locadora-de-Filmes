@@ -1,24 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "locadora.h"
 
 int main(void){
 
   FILE *arq;
   arq = fopen("filmes.txt", "r");
-  char c, ano[10], titulo[N];
-  int i, opcao, ano;
+  char c, ano[10], input_titulo[N];
+  int i, opcao, input_ano, sair;
   Filme f;
 
-  Lista* li = inicializaLista()
+  Lista* li = inicializaLista();
 
-  while(1) {
+  while (1) {
 
     for (i=0, c = fgetc(arq); c != ','; i++)
       f.titulo[i] = fgetc(arq);
 
-    for (i=0, c = fgetc(arq); c != '\n'; i++)
+    for (i=0, c = fgetc(arq); c != '\n'; i++){
       ano[i] = fgetc(arq);
+    }
 
     f.ano = convertString(ano, i);
 
@@ -43,23 +45,22 @@ int main(void){
 
       case 1:
         printf(">>> ANO: ");
-        scanf("%d", ano)
-        consultaAno(li, ano);
+        scanf("%d", &input_ano);
+        consultaAno(li, input_ano);
         break;
 
       case 2:
         printf(">>> TÍTULO: ");
-        fgets(titulo, sizeof(titulo), stdin);
-        titulo[strcspn(titulo,"\0")]=NULL;
-        if (consultaTitulo(li, titulo) != -1)
-        else
+        fgets(input_titulo, sizeof(input_titulo), stdin);
+        input_titulo[strcspn(input_titulo,"\0")] = NULL;
+        consultaTitulo(li, input_titulo);
         break;
 
       case 3:
         printf(">>> TÍTULO: ");
-        fgets(titulo, sizeof(titulo), stdin);
-        titulo[strcspn(titulo,"\0")]=NULL;
-        alugaPorTitulo(titulo);
+        fgets(input_titulo, sizeof(input_titulo), stdin);
+        input_titulo[strcspn(input_titulo,"\0")] = NULL;
+        alugaPorTitulo(input_titulo, li);
         break;
 
       case 4:
@@ -68,13 +69,15 @@ int main(void){
         break;
 
       case 5:
-        goto sair;
+        sair = 1;
         break;
 
       default:
         printf("Digite corretamente uma das opções acima.\n");
     }
+    if (sair)
+      break;
   }
+
   liberaLista(li);
-  sair:
 }
