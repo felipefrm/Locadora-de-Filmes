@@ -6,7 +6,7 @@
 int main(void){
 
   FILE *arq;
-  arq = fopen("filmes.txt", "r");
+  arq = fopen("lista.txt", "r");
   char c, ano[10], input_titulo[N];
   int opcao, input_ano, sair;
   Filme f;
