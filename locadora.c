@@ -29,6 +29,7 @@ int insereFilme(Lista* li, Filme f){
   if (li->qtd == MAX) //lista cheia
     return 0;
   li->dados[li->qtd] = f;
+//  printf("%s, qtd: %d\n", li->dados[li->qtd].titulo, li->qtd);
   li->dados[li->qtd].locacao = 0;
   li->qtd++;
   return 1;
@@ -42,7 +43,7 @@ void consultaTitulo(Lista* li, char* title){
       printf("%s, %d\n", li->dados[i].titulo, li->dados[i].ano);
       return;
     }
-  printf("Não foi encontrado filmes com este título em nosso banco de dados");
+  printf("\nNão foi encontrado filmes com este título em nosso banco de dados.\n");
   return;
 }
 
@@ -58,7 +59,7 @@ void consultaAno(Lista *li, int ano){
     i++;
   }
   if (flag == 0)
-    printf("Não há filmes de %d em nosso banco de dados.\n", ano);
+    printf("\nNão há filmes de %d em nosso banco de dados.\n", ano);
 }
 
 void aluga(Filme *f){
@@ -68,22 +69,28 @@ void aluga(Filme *f){
 
 
 void alugaPorTitulo(char* titulo, Lista* li){
+  int flag = 0;
   for (int i=0; i<li->qtd; i++)
-    if (!strcmp(li->dados[i].titulo, titulo))
+    if (!strcmp(li->dados[i].titulo, titulo)){
       aluga(&(li->dados[i]));
+      flag = 1;
+      break;
+    }
+  if (flag == 0)
+    printf("\nNão foi encontrado filmes com este título em nosso banco de dados.\n");
 }
 
 void imprimeFilmes(Lista* li){
   Filme aux;
   for(int i=0; i<li->qtd; i++){
     for (int j=i; j<li->qtd; j++){
-      if (li->dados[i].locacao <= li->dados[j].locacao) {
+      if (li->dados[i].locacao < li->dados[j].locacao) {
         aux = li->dados[i];
         li->dados[i] = li->dados[j];
         li->dados[j] = aux;
       }
-      printf("%s, %d, locações: %d\n", li->dados[i].titulo, li->dados[i].ano, li->dados[i].locacao);
     }
+    printf("%s, %d, locações: %d\n", li->dados[i].titulo, li->dados[i].ano, li->dados[i].locacao);
   }
 }
 
@@ -91,10 +98,10 @@ int convertChar(char c){
   return (c - 48);
 }
 
-int convertString(char* ano, int i){
-  int year = 0;
-  for (int j=0, expoente=i; j <= i; j++){
-    year += convertChar(ano[j]) * pow(10, expoente);
+int convertString(char* ano){
+  int year = 0, tamanho = strlen(ano);
+  for (int i=0, expoente=tamanho-1; i < tamanho; i++){
+    year += convertChar(ano[i]) * pow(10, expoente);
     expoente --;
   }
   return year;
