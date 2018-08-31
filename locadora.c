@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#define MAX 100
+#define MAX 5000
 
 struct lista {
   int qtd;
