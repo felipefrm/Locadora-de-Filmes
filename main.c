@@ -6,21 +6,21 @@
 int main(void){
 
   FILE *arq;
-  arq = fopen("lista.txt", "r");
+  arq = fopen("filmes.txt", "r");
   char c, ano[10], input_titulo[N];
   int opcao, input_ano, sair;
   Filme f;
 
   Lista* li = inicializaLista();
 
-  while (1) {
+  while (1) {       // Laço para leitura de todos os filmes do arquivo
 
     int i;
     for (i=0, c = fgetc(arq); c != ','; c = fgetc(arq), i++){
       if (feof(arq) != 0)
           break;
-      f.titulo[i] = c;
-    }
+      f.titulo[i] = c;              // Lendo título e ano dos filmes do arq e
+    }                              // armazenando na na struct
     f.titulo[i] = '\0';
 
     if (feof(arq) != 0)
@@ -30,10 +30,9 @@ int main(void){
       ano[i] = c;
     ano[i] = '\0';
 
-    f.ano = convertString(ano);
+    f.ano = convertString(ano);     // Converte string para int
 
-    if (insereFilme(li, f) == 0)
-      fprintf(stderr, "Lista de filmes cheia!\n");
+    insereFilme(li, f);
     }
 
     fclose(arq);
@@ -42,7 +41,7 @@ int main(void){
 
     while (1) {
 
-    printf("\nO que deseja fazer?\n");
+    printf("\nO que deseja fazer?\n");                 // MENU
     printf("\n[1] Buscar filme pelo ano;\n[2] Buscar filme pelo título;\n");
     printf("[3] Alugar filme;\n[4] Visualizar lista de filmes;\n[5] Sair\n>>> ");
     scanf("%d", &opcao);
@@ -60,14 +59,14 @@ int main(void){
         setbuf(stdin, NULL);
         fgets(input_titulo, sizeof(input_titulo), stdin);
         input_titulo[strcspn(input_titulo,"\n")] = NULL;   //substitui '\n' por NULL
-        consultaTitulo(li, input_titulo);
-        break;
+        consultaTitulo(li, input_titulo);                 // para que input_titulo seja
+        break;                                           // igual ao titulo na struct filme
 
       case 3:
         printf("\n>>> TÍTULO: ");
         setbuf(stdin, NULL);
         fgets(input_titulo, sizeof(input_titulo), stdin);
-        input_titulo[strcspn(input_titulo,"\n")] = NULL;
+        input_titulo[strcspn(input_titulo,"\n")] = NULL;  //substitui '\n' por NULL
         alugaPorTitulo(input_titulo, li);
         break;
 
@@ -85,7 +84,7 @@ int main(void){
         printf("\nDigite corretamente uma das opções acima.\n");
     }
 
-    if (sair)
+    if (sair == 1)
       break;
     printf("\n--------------------------------\n");
   }
