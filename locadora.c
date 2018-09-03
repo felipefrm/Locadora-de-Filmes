@@ -1,10 +1,10 @@
-#include "locadora.h"
-#include <math.h>
-#include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include "locadora.h"
 
-#define MAX 5000
+#define MAX 100
 
 struct lista {
   int qtd;
@@ -23,33 +23,38 @@ void liberaLista(Lista* li){
   free(li);
 }
 
-int insereFilme(Lista* li, Filme f){
-  if (li == NULL)
-    return 0;
-  if (li->qtd == MAX) //lista cheia
-    return 0;
+void insereFilme(Lista* li, Filme f){
+  if (li == NULL){
+    printf("A lista não foi inicializada corretamente.\n");
+    return;
+  }
+  if (li->qtd == MAX){   //lista cheia
+    printf("Lista de filmes cheia!\n");
+    return;
+  }
   li->dados[li->qtd] = f;
-//  printf("%s, qtd: %d\n", li->dados[li->qtd].titulo, li->qtd);
   li->dados[li->qtd].locacao = 0;
   li->qtd++;
-  return 1;
 }
 
 void consultaTitulo(Lista* li, char* title){
-  if (li == NULL)
+  if (li == NULL){
+    printf("A lista não foi inicializada corretamente.\n");
     return;
+  }
   for (int i=0; i < li->qtd; i++)
     if (!strcmp(li->dados[i].titulo, title)){
       printf("%s, %d\n", li->dados[i].titulo, li->dados[i].ano);
       return;
     }
   printf("\nNão foi encontrado filmes com este título em nosso banco de dados.\n");
-  return;
 }
 
 void consultaAno(Lista *li, int ano){
-  if (li == NULL)
+  if (li == NULL){
+    printf("A lista não foi inicializada corretamente.\n");
     return;
+  }
     int i=0, flag=0;
   while (i<li->qtd) {
     if (li->dados[i].ano == ano){
@@ -73,6 +78,7 @@ void alugaPorTitulo(char* titulo, Lista* li){
   for (int i=0; i<li->qtd; i++)
     if (!strcmp(li->dados[i].titulo, titulo)){
       aluga(&(li->dados[i]));
+      printf("\nFilme alugado com sucesso!\n");
       flag = 1;
       break;
     }
