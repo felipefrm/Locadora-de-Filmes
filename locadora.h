@@ -14,7 +14,7 @@ typedef struct filme Filme;
 
 Lista* inicializaLista();
 void liberaLista(Lista* li);
-int insereFilme(Lista* li, Filme f);
+void insereFilme(Lista* li, Filme f);
 void consultaTitulo(Lista *li, char* title);
 void consultaAno(Lista *li, int ano);
 void aluga(Filme *f);
